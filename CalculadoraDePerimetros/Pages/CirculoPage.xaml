@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalculadoraDePerimetros.Pages.CirculoPage"
+             xmlns:view="clr-namespace:CalculadoraDePerimetros.Pages"
+             Title="CirculoPage">
+    <VerticalStackLayout HorizontalOptions="Fill" MaximumWidthRequest="700" Spacing="10" Margin="10">
+        <Grid ColumnDefinitions="*" RowDefinitions="*" HorizontalOptions="Center" VerticalOptions="Center" ColumnSpacing="10" RowSpacing="10">
+            <Ellipse WidthRequest="100" HeightRequest="100" BackgroundColor="CornflowerBlue"></Ellipse>
+            <Line X1="10" Y1="50" X2="50" Y2="50" ZIndex="20" TranslationX="-10" Stroke="Black"> </Line>
+            <Label Grid.Column="0" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" TranslationX="-25" TranslationY="-10">r</Label>
+        </Grid>
+        <Label>r</Label>
+        <Entry Keyboard="Numeric"></Entry>
+        <Button HorizontalOptions="Center" Padding="0 25" Text="Calcular"></Button>
+    </VerticalStackLayout>
+</ContentPage>

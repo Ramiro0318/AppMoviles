@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="CalculadoraDePerimetros/CalculadoraDePerimetros.csproj" />
+  <Project Path="RecetasAPI/RecetasAPI.csproj" Id="b159345d-0aea-4311-a1a0-894a8380ac97" />
+  <Project Path="RecetasMAUI/RecetasMAUI.csproj" Id="625effe4-1e08-4cf1-8308-f9e8cdf0c7ff">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

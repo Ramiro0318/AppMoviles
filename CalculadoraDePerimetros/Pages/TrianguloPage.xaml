@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalculadoraDePerimetros.Pages.TrianguloPage"
+             xmlns:views="clr-namespace:CalculadoraDePerimetros.Pages"
+             Title="TrianguloPage">
+    <VerticalStackLayout HorizontalOptions="Fill" MaximumWidthRequest="700" Spacing="10" Margin="10">
+        <Grid ColumnDefinitions="auto, *, auto" RowDefinitions="*, auto" HorizontalOptions="Center" VerticalOptions="Center" ColumnSpacing="10" RowSpacing="10">
+            <Label Grid.Column="0" Grid.Row="0" VerticalOptions="Center">a</Label>
+            <Polygon Points="50 0, 100 100 0 100" BackgroundColor="CornflowerBlue" Grid.Column="1" Grid.Row="0"></Polygon>
+            <Label Grid.Column="1" Grid.Row="1" HorizontalOptions="Center">b</Label>
+            <Label Grid.Column="2" Grid.Row="0" VerticalOptions="Center">c</Label>
+        </Grid>
+        <Label>a</Label>
+        <Entry Keyboard="Numeric"></Entry>
+        <Label>b</Label>
+        <Entry Keyboard="Numeric"></Entry>
+        <Label>c</Label>
+        <Entry Keyboard="Numeric"></Entry>
+
+        <Button HorizontalOptions="Center" Padding="0 25" Text="Calcular"></Button>
+    </VerticalStackLayout>
+</ContentPage>

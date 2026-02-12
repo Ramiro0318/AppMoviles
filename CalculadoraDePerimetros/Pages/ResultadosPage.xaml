@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalculadoraDePerimetros.Pages.ResultadosPage"
+             xmlns:views="clr-namespace:CalculadoraDePerimetros.Pages"
+             Title="ResultadosPage">
+    <VerticalStackLayout Margin="50" Spacing="10">
+        <Label FontSize="Subtitle" 
+               Text="{Binding Resultado}"
+               HorizontalTextAlignment="Center"/>
+        <Label Text="{Binding Perimetro}" FontSize="Header"
+               FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+        <Button Command="{Binding IrInicioCommand}" Text="Inicio"></Button>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalculadoraDePerimetros.MainPage"
+             xmlns:views="clr-namespace:CalculadoraDePerimetros.Pages">
+    <Grid MaximumWidthRequest="300" Margin="10, 50" RowDefinitions="1*,1*,1*" RowSpacing="15">
+        <Button Command="{Binding SeleccionarFiguraCommand}" CommandParameter="cuadrilatero" Grid.Row="0" Text="Cuadriláteros"></Button>
+        <Button Command="{Binding SeleccionarFiguraCommand}" CommandParameter="triangulo" Grid.Row="1" Text="Triángulos"></Button>
+        <Button Command="{Binding SeleccionarFiguraCommand}" CommandParameter="circulo" Grid.Row="2" Text="Círculos"></Button>
+    </Grid>
+
+</ContentPage>
