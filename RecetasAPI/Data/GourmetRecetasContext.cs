@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
+using RecetasAPI.Models.Entities;
 
-namespace RecetasAPI.Models.Entities;
+namespace RecetasAPI.Data;
 
 public partial class GourmetRecetasContext : DbContext
 {
