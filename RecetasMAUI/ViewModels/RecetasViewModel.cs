@@ -13,7 +13,24 @@ namespace RecetasMAUI.ViewModels
     {
 
         public RecetasService service = new();
-            public ObservableCollection<CategoriaDTO>? Categorias { get; set; }
+        public ObservableCollection<CategoriaDTO> Categorias { get; set; } = new();
+
+        public RecetasViewModel()
+        {
+            GetCategorias();
+        }
+
+        public async void GetCategorias()
+        {
+            var categorias = await service.GetCategoria();
+            Categorias.Clear();
+            //Categorias.ForEach(categorias.Add);
+            foreach (var c in categorias)
+            {
+                Categorias.Add(c);
+            }
+        }
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
     }

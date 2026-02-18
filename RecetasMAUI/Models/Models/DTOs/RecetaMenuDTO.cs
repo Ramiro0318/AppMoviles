@@ -4,6 +4,7 @@ namespace RecetasAPI.Models.DTOs
 {
     public class RecetaMenuDTO
     {
+        public int IdCategoria { get; set; }
         public int Id { get; set; }
         public string Nombre { get; set; } = null!;
         public string Porcion { get; set; } = null!;

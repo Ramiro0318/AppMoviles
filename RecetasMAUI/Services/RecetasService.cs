@@ -1,4 +1,4 @@
-﻿using Android.Webkit;
+﻿
 using RecetasAPI.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -12,14 +12,14 @@ namespace RecetasMAUI.Services
     {
         string baseurl = "https://localhost:7027/";
         HttpClient client;
-        public RecetasService() 
+        public RecetasService()
         {
             client = new HttpClient
             {
                 BaseAddress = new Uri(baseurl)
             };
         }
-        public async Task<List<CategoriaDTO>> GetCategoria() 
+        public async Task<List<CategoriaDTO>> GetCategoria()
         {
 
             var response = await client.GetAsync("/api/recetas/categorias");
@@ -27,6 +27,18 @@ namespace RecetasMAUI.Services
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadFromJsonAsync<List<CategoriaDTO>>();
+                return json ?? [];
+            }
+            else return [];
+        }
+
+        public async Task<List<RecetaMenuDTO>> GetMenuPorCategoria(int idCategoria)
+        {
+            var response = await client.GetAsync("/api/recetas/categorias/"+ idCategoria);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadFromJsonAsync<List<RecetaMenuDTO>>();
                 return json ?? [];
             }
             else return [];

@@ -3,10 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecetasMAUI.MainPage" Title="Recetario" Background="DarkGray">
 
-    <VerticalStackLayout Spacing="1" Background="DarkGray">
+    <CollectionView Background="DarkGray" Margin="0,1,0,1" ItemsSource="{Binding Categorias}">
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="1"/>
+        </CollectionView.ItemsLayout>
+        
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Label TextColor="black" Background="Whitesmoke" Padding="10" Text="{Binding Nombre}"></Label>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
+    <!--<VerticalStackLayout Spacing="1" Background="DarkGray">
         <Label TextColor="black" Background="Whitesmoke" Padding="10">Desayunos</Label>
         <Label TextColor="black" Background="Whitesmoke" Padding="10">Desayunos</Label>
-        <Label TextColor="black" Background="Whitesmoke" Padding="10">Desayunos</Label>
-    </VerticalStackLayout>
-    
+    </VerticalStackLayout>-->
+
 </ContentPage>
