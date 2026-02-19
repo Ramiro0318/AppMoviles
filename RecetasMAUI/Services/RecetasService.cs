@@ -39,6 +39,12 @@ namespace RecetasMAUI.Services
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadFromJsonAsync<List<RecetaMenuDTO>>();
+
+                if (json != null)
+                {
+                    json.ForEach(item => item.IdCategoria = idCategoria);
+                }
+
                 return json ?? [];
             }
             else return [];

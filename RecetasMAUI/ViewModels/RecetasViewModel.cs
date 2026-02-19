@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Windows.Input;
 
 namespace RecetasMAUI.ViewModels
 {
@@ -14,10 +15,29 @@ namespace RecetasMAUI.ViewModels
 
         public RecetasService service = new();
         public ObservableCollection<CategoriaDTO> Categorias { get; set; } = new();
+        public ObservableCollection<RecetaMenuDTO> Menu { get; set; } = [];
+        List<RecetaMenuDTO> ListaMenus = [];
 
+        public ICommand CategoriaCommand { get; set; }
         public RecetasViewModel()
         {
             GetCategorias();
+            CategoriaCommand = new Command<int>(GetRecetaByCategorias);
+        }
+
+        private async void GetRecetaByCategorias(int id)
+        {
+            var menus = ListaMenus.Where(x => x.IdCategoria == id).ToList();
+            if (menus.Count() == 0)
+            {
+                //descargar de la api
+                menus = await service.GetMenuPorCategoria(id);
+                //Agregar a la lista
+                ListaMenus.AddRange(menus);
+            }
+            Menu.Clear();
+            menus.ForEach(Menu.Add);
+
         }
 
         public async void GetCategorias()

@@ -5,12 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:RecetasMAUI" BackgroundColor="#5520F0" Shell.TitleColor="AliceBlue"
     xmlns:vm="clr-namespace:RecetasMAUI.ViewModels"
+    xmlns:views="clr-namespace:RecetasMAUI.Views"
     Title="RecetasMAUI">
 
     <Shell.BindingContext>
         <vm:RecetasViewModel></vm:RecetasViewModel>
     </Shell.BindingContext>
-    
+
+    <ShellContent ContentTemplate="{DataTemplate views:MenuRecetasPage}"></ShellContent>
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
