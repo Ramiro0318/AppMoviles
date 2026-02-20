@@ -1,19 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RecetasMAUI.MainPage" Title="Recetario" Background="DarkGray">
+             x:Class="RecetasMAUI.MainPage" Title="Recetario" Background="DarkGray"
+              x:Name="VentanaPrincipal">
 
-    <CollectionView Background="DarkGray" Margin="0,1,0,1" ItemsSource="{Binding Categorias}">
-        <CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Vertical" ItemSpacing="1"/>
-        </CollectionView.ItemsLayout>
-        
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Label TextColor="black" Background="Whitesmoke" Padding="10" Text="{Binding Nombre}"></Label>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <Grid>
+        <Border Background="#30000000" >
+            <ActivityIndicator IsVisible="{Binding isLoading}"></ActivityIndicator>
+        </Border>
+        <CollectionView Background="DarkGray" Margin="0,1,0,1" ItemsSource="{Binding Categorias}">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="1"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label TextColor="black" Background="Whitesmoke" Padding="10" Text="{Binding Nombre}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding 
+                                    Source={x:Reference VentanaPrincipal}, Path= BindingContext.CategoriaCommand}" 
+                                    CommandParameter="{Binding Id}"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 
     <!--<VerticalStackLayout Spacing="1" Background="DarkGray">
         <Label TextColor="black" Background="Whitesmoke" Padding="10">Desayunos</Label>

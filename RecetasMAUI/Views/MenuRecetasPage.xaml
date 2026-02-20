@@ -3,18 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecetasMAUI.Views.MenuRecetasPage"
              xmlns:vm="clr-namespace:RecetasMAUI.ViewModels"
+            
              Title="MenuRecetasPage">
     <VerticalStackLayout>
         <SearchBar></SearchBar>
         <VerticalStackLayout>
-            <Border Stroke="DarkGray" StrokeThickness="1" Background="White">
-                <Grid RowDefinitions="*,*" ColumnDefinitions="0.2*,0.4*,0.4*">
-                    <Image Grid.Column="0" Grid.RowSpan="2"></Image>
-                    <Label Grid.Column="1" FontAttributes="Bold">budin de pan y manxanas</Label>
-                    <Label Grid.Column="1">105 minutos</Label>
-                    <Label Grid.Column="2">10 porciones</Label>
-                </Grid>
-            </Border>
+            <CollectionView ItemsSource="{Binding Menu}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="2" Stroke="DarkGray" StrokeThickness="1" Background="White">
+                            <Grid RowSpacing="5" ColumnSpacing="5"  RowDefinitions="auto,auto" ColumnDefinitions="0.2*,0.4*,0.4*">
+                                <Image Grid.Column="0" Grid.RowSpan="2" Source="{Binding Imagen_URL}"></Image>
+                                <Label Grid.Column="1" FontAttributes="Bold" TextColor="Black" Text="{Binding Nombre}">
+                                    <!--<Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding 
+                                            Source={x:Reference ventanaPrincipal}, Path= BindingContext.CategoriaCommand}" 
+                                                              CommandParameter="{Binding Id}"></TapGestureRecognizer>
+                                    </Label.GestureRecognizers>-->
+                                </Label>
+                                <Label Grid.Column="1" Grid.Row="1" TextColor="Black" Text="{Binding Tiempo}"></Label>
+                                <Label Grid.Column="2" Margin="10,0,10,0" TextColor="Black" Grid.Row="1" Text="{Binding Porciones}"></Label>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

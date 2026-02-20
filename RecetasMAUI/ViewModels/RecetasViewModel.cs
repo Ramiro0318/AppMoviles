@@ -17,6 +17,7 @@ namespace RecetasMAUI.ViewModels
         public ObservableCollection<CategoriaDTO> Categorias { get; set; } = new();
         public ObservableCollection<RecetaMenuDTO> Menu { get; set; } = [];
         List<RecetaMenuDTO> ListaMenus = [];
+        public bool isLoading { get; set; }
 
         public ICommand CategoriaCommand { get; set; }
         public RecetasViewModel()
@@ -25,8 +26,12 @@ namespace RecetasMAUI.ViewModels
             CategoriaCommand = new Command<int>(GetRecetaByCategorias);
         }
 
+        //KISS
         private async void GetRecetaByCategorias(int id)
         {
+            isLoading = true;
+            PropertyChanged?.Invoke(this, new (nameof(isLoading)));
+
             var menus = ListaMenus.Where(x => x.IdCategoria == id).ToList();
             if (menus.Count() == 0)
             {
@@ -38,6 +43,10 @@ namespace RecetasMAUI.ViewModels
             Menu.Clear();
             menus.ForEach(Menu.Add);
 
+            isLoading = false;
+            PropertyChanged?.Invoke(this, new(nameof(isLoading)));
+
+            await Shell.Current.GoToAsync("menurecetas");
         }
 
         public async void GetCategorias()

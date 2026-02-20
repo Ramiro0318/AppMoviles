@@ -12,7 +12,6 @@
         <vm:RecetasViewModel></vm:RecetasViewModel>
     </Shell.BindingContext>
 
-    <ShellContent ContentTemplate="{DataTemplate views:MenuRecetasPage}"></ShellContent>
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
