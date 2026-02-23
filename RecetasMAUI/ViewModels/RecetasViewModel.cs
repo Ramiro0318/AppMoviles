@@ -15,6 +15,18 @@ namespace RecetasMAUI.ViewModels
 
         public RecetasService service = new();
         public ObservableCollection<CategoriaDTO> Categorias { get; set; } = new();
+
+        private string? texto;
+        public string? TextoBusqueda { 
+            get { return texto; } 
+            set { texto = value;
+                Filtrar();
+            } 
+        }
+        public string? NombreCategoria { set; get; }
+
+
+        private int idCategoriaSeleccionada = 0;
         public ObservableCollection<RecetaMenuDTO> Menu { get; set; } = [];
         List<RecetaMenuDTO> ListaMenus = [];
         public bool isLoading { get; set; }
@@ -26,11 +38,30 @@ namespace RecetasMAUI.ViewModels
             CategoriaCommand = new Command<int>(GetRecetaByCategorias);
         }
 
+        void Filtrar() 
+        {
+            ListaMenus.Clear();
+
+            var menus = ListaMenus.Where(x => x.IdCategoria == 
+            idCategoriaSeleccionada && ( TextoBusqueda != null && 
+            x.Nombre.Contains(TextoBusqueda, StringComparison.OrdinalIgnoreCase))).ToList();
+            //foreach (var m in menus)
+            //{
+            //    Menu.Add(m);
+            //}
+
+            menus.ForEach(Menu.Add);
+        }
+
         //KISS
         private async void GetRecetaByCategorias(int id)
         {
             isLoading = true;
             PropertyChanged?.Invoke(this, new (nameof(isLoading)));
+
+            idCategoriaSeleccionada = id;
+            NombreCategoria = Categorias.FirstOrDefault(x => x.Id == id)?.Nombre;
+            PropertyChanged?.Invoke(this, new(nameof(NombreCategoria)));
 
             var menus = ListaMenus.Where(x => x.IdCategoria == id).ToList();
             if (menus.Count() == 0)
