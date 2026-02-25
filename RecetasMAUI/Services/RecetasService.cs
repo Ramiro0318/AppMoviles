@@ -3,6 +3,7 @@ using RecetasAPI.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,6 +49,13 @@ namespace RecetasMAUI.Services
                 return json ?? [];
             }
             else return [];
+        }
+
+        public async Task<RecetaDTO?> GetReceta(int idreceta) 
+        {
+            var receta = await client.GetFromJsonAsync<RecetaDTO>("/api/recetas/" + idreceta);
+
+            return receta;
         }
     }
 }

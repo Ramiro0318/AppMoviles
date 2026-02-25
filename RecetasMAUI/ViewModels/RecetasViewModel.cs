@@ -29,6 +29,9 @@ namespace RecetasMAUI.ViewModels
         private int idCategoriaSeleccionada = 0;
         public ObservableCollection<RecetaMenuDTO> Menu { get; set; } = [];
         List<RecetaMenuDTO> ListaMenus = [];
+
+        public RecetaDTO? RecetaActiva ;
+        private List<RecetaDTO> TodasRecetas = new();
         public bool isLoading { get; set; }
 
         public ICommand CategoriaCommand { get; set; }
@@ -91,6 +94,19 @@ namespace RecetasMAUI.ViewModels
             }
         }
 
+        private async void GetReceta(int id) 
+        {
+            var receta = TodasRecetas.FirstOrDefault(x => x.Id == id);
+            if (receta.Id != null)
+            {
+                receta = await service.GetReceta(id);
+                TodasRecetas.Add(receta);
+            }
+
+            RecetaActiva = receta;
+            PropertyChanged?.Invoke(this, new(nameof(RecetaActiva)));
+        
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
     }

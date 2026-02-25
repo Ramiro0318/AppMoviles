@@ -37,6 +37,7 @@ namespace RecetasAPI.Mappers
         {
             return new RecetaDTO
             {
+                Id = r.DatabaseId ?? 0,
                 Nombre = r.Titulo,
                 Descripcion = r.Descripcion ?? "",
                 ImagenURL = r.ImagenUrl ?? "",
