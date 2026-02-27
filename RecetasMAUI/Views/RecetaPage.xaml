@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecetasMAUI.Views.RecetaPage"
              xmlns:c="clr-namespace:RecetasMAUI.Controls"
+             xmlns:vm="clr-namespace:RecetasMAUI.ViewModels"
              Title="RecetaPage">
 
     <c:CustomTabbedView Background="#5520F0">
@@ -11,10 +12,11 @@
                 <c:TabItem.Content>
                     <ScrollView>
                         <VerticalStackLayout Margin="10">
-                            <Image Source="splash.png" Aspect="AspectFit" MaximumWidthRequest="300"></Image>
-                            <Label FontAttributes="Bold" FontSize="Subtitle" HorizontalTextAlignment="Center">Rollitos de canela</Label>
-                            <Label>3 Porciones</Label>
-                            <Label>Aproximandamente 10 minutos</Label>
+                            <Image Source="{Binding RecetaActiva.URLImagen}" Aspect="AspectFit" MaximumWidthRequest="300"></Image>
+                            <Label FontAttributes="Bold" FontSize="Subtitle" HorizontalTextAlignment="Center" Text="{Binding RecetaActiva.Nombre}" ></Label>
+                            <Label TextColor="Black" Text="{Binding RecetaActiva.Descripcion}"></Label>
+                            <Label Text="{Binding RecetaActiva.Porciones}"></Label>
+                            <Label Text="{Binding RecetaActiva.Tiempo}"></Label>
                         </VerticalStackLayout>
                     </ScrollView>
                 </c:TabItem.Content>

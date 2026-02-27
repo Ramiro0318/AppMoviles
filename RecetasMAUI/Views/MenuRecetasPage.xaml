@@ -8,32 +8,31 @@
 
     <ContentPage.Resources>
         <Style TargetType="Label">
-            <Setter Property="TextColor" Value="Red"> </Setter>
+            <Setter Property="TextColor" Value="Red"></Setter>
         </Style>
     </ContentPage.Resources>
     <Grid RowDefinitions="auto, *" Background="#c5cae9">
         <SearchBar Text="{Binding TextoBusqueda}"></SearchBar>
         <VerticalStackLayout>
             <CollectionView Grid.Row="1" ItemsSource="{Binding Menu}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Margin="2" Stroke="DarkGray" StrokeThickness="1" Background="White">
-                                <Grid RowSpacing="5" ColumnSpacing="5"  RowDefinitions="auto,auto" ColumnDefinitions="0.2*,0.4*,0.4*">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="2" Stroke="DarkGray" StrokeThickness="1" Background="White">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding Source={x:Reference ventana}, Path=BindingContext.SeleccionarRecetaCommand}">
+                                </TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <Grid RowSpacing="5" ColumnSpacing="5"  RowDefinitions="auto,auto" ColumnDefinitions="0.2*,0.4*,0.4*">
                                 <Image Grid.Column="0" Grid.RowSpan="2" Source="{Binding ImagenUrl}"></Image>
-                                    <Label Grid.Column="1" FontAttributes="Bold" TextColor="Black" Text="{Binding Nombre}">
-                                        <!--<Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding 
-                                            Source={x:Reference ventanaPrincipal}, Path= BindingContext.CategoriaCommand}" 
-                                                              CommandParameter="{Binding Id}"></TapGestureRecognizer>
-                                    </Label.GestureRecognizers>-->
-                                    </Label>
-                                    <Label Grid.Column="1" Grid.Row="1" TextColor="Black" Text="{Binding Tiempo}"></Label>
-                                    <Label Grid.Column="2" Margin="10,0,10,0" TextColor="Black" Grid.Row="1" Text="{Binding Porciones}"></Label>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </VerticalStackLayout>
+                                <Label Grid.Column="1" FontAttributes="Bold" TextColor="Black" Text="{Binding Nombre}"></Label>
+                                <Label Grid.Column="1" Grid.Row="1" TextColor="Black" Text="{Binding Tiempo}"></Label>
+                                <Label Grid.Column="2" Margin="10,0,10,0" TextColor="Black" Grid.Row="1" Text="{Binding Porciones}"></Label>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
     </Grid>
 </ContentPage>

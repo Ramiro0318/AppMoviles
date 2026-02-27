@@ -35,10 +35,13 @@ namespace RecetasMAUI.ViewModels
         public bool isLoading { get; set; }
 
         public ICommand CategoriaCommand { get; set; }
+        public ICommand SeleccionarRecetaCommand { get; set; }
         public RecetasViewModel()
         {
             GetCategorias();
             CategoriaCommand = new Command<int>(GetRecetaByCategorias);
+            SeleccionarRecetaCommand = new Command<int>(GetReceta);
+            
         }
 
         void Filtrar() 
@@ -96,16 +99,23 @@ namespace RecetasMAUI.ViewModels
 
         private async void GetReceta(int id) 
         {
+            isLoading = true;
+            PropertyChanged?.Invoke(this, new(nameof(isLoading)));
             var receta = TodasRecetas.FirstOrDefault(x => x.Id == id);
-            if (receta.Id != null)
+            if (receta == null)
             {
                 receta = await service.GetReceta(id);
+                if (receta == null) return;
                 TodasRecetas.Add(receta);
             }
 
             RecetaActiva = receta;
             PropertyChanged?.Invoke(this, new(nameof(RecetaActiva)));
-        
+
+            await Shell.Current.GoToAsync("receta");
+
+            isLoading = true;
+            PropertyChanged?.Invoke(this, new(nameof(isLoading)));
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

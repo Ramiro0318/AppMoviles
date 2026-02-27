@@ -9,6 +9,7 @@ namespace RecetasMAUI
         {
             InitializeComponent();
             Routing.RegisterRoute("menurecetas", typeof (MenuRecetasPage));
+            Routing.RegisterRoute("receta", typeof (RecetaPage));
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
