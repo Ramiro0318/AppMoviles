@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecetasMAUI.Views.RecetaPage"
              xmlns:c="clr-namespace:RecetasMAUI.Controls"
-             xmlns:vm="clr-namespace:RecetasMAUI.ViewModels"
-             Title="RecetaPage">
+             xmlns:vm="clr-namespace:RecetasMAUI.ViewModels" x:DataType="vm:RecetasViewModel"
+             Title="{Binding RecetaActiva.Nombre}">
 
     <c:CustomTabbedView Background="#5520F0">
         <c:CustomTabbedView.Tabs>
@@ -12,7 +12,7 @@
                 <c:TabItem.Content>
                     <ScrollView>
                         <VerticalStackLayout Margin="10">
-                            <Image Source="{Binding RecetaActiva.URLImagen}" Aspect="AspectFit" MaximumWidthRequest="300"></Image>
+                            <Image Source="{Binding RecetaActiva.ImagenURL}" Aspect="AspectFit" MaximumWidthRequest="300"></Image>
                             <Label FontAttributes="Bold" FontSize="Subtitle" HorizontalTextAlignment="Center" Text="{Binding RecetaActiva.Nombre}" ></Label>
                             <Label TextColor="Black" Text="{Binding RecetaActiva.Descripcion}"></Label>
                             <Label Text="{Binding RecetaActiva.Porciones}"></Label>
@@ -24,13 +24,23 @@
             <c:TabItem Title="Ingredientes">
                 <c:TabItem.Content>
                     <ScrollView>
-                        <VerticalStackLayout Spacing="10" Padding="20">
-                            <Label FontAttributes="Bold" FontSize="Subtitle">Encabezado de grupo</Label>
-                            <Label Padding="10 0 0 0">Ingrediente 1</Label>
-                            <Label Padding="10 0 0 0">Ingrediente 2</Label>
-                            <Label Padding="10 0 0 0">Ingrediente 3</Label>
-                            <Label Padding="10 0 0 0">Ingrediente 4</Label>
-                        </VerticalStackLayout>
+                        <CollectionView IsGrouped="True" ItemsSource="{Binding RecetaActiva.Ingredientes}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout Spacing="10" Padding="10">
+                                    <Label FontAttributes="Bold" FontSize="Subtitle" Text="{Binding Grupo}"></Label>
+                                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Elementos}">
+                                            <BindableLayout.ItemTemplate >
+                                                <DataTemplate>
+                                                    <Label Padding="10,0,0,0" Text="{Binding Ingredientes}"></Label>
+
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </ScrollView>
                 </c:TabItem.Content>
             </c:TabItem>
@@ -38,19 +48,26 @@
                 <c:TabItem.Content>
                     <ScrollView>
                         <VerticalStackLayout>
-                            <Label FontAttributes="Bold" FontSize="Subtitle">Encabezado de grupo</Label>
-                            <Grid ColumnDefinitions="50, *">
-                                <Label Padding="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" BackgroundColor="#FF4081"></Label>
-                                <Label Padding="5" Grid.Column="1" Background="#FFF" TextColor="#000">Paso 1</Label>
-                            </Grid>
-                            <Grid ColumnDefinitions="50, *">
-                                <Label Padding="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" BackgroundColor="#FF4081"></Label>
-                                <Label Padding="5" Grid.Column="1" Background="#FFF" TextColor="#000">Paso 1</Label>
-                            </Grid>
-                            <Grid ColumnDefinitions="50, *">
-                                <Label Padding="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" BackgroundColor="#FF4081"></Label>
-                                <Label Padding="5" Grid.Column="1" Background="#FFF" TextColor="#000">Paso 1</Label>
-                            </Grid>
+
+                            <CollectionView IsGrouped="True" ItemsSource="{Binding RecetaActiva.Procedimiento}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <VerticalStackLayout Spacing="10" Padding="10">
+                                            <Label FontAttributes="Bold" FontSize="Subtitle" Text="{Binding Orden}"></Label>
+                                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Elementos}">
+                                                <BindableLayout.ItemTemplate >
+                                                    <DataTemplate>
+                                                        <Grid ColumnDefinitions="50, *">
+                                                            <Label Padding="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" BackgroundColor="#FF4081"></Label>
+                                                            <Label Padding="5" Grid.Column="1" Background="#FFF" TextColor="#000" Text="{Binding Paso}"></Label>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </VerticalStackLayout>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </VerticalStackLayout>
                     </ScrollView>
                 </c:TabItem.Content>
