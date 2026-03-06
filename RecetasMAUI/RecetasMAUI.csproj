@@ -63,6 +63,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\RecetasAPI\RecetasAPI.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\MenuRecetasPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
