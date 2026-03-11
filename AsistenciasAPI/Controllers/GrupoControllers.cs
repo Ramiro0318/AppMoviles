@@ -34,7 +34,7 @@ namespace AsistenciasAPI.Controllers
             return Ok(dto);
         }
 
-        [HttpPut]
+        [HttpPost]
         public IActionResult Post(AgregarGrupoDTO dto) 
         {
             try
@@ -48,6 +48,33 @@ namespace AsistenciasAPI.Controllers
                 return BadRequest(mensajesError);
             }
         
+        }
+
+        [HttpPut]
+        public IActionResult Put(EditarGrupoDTO dto)
+        {
+            try
+            {
+                Service.Editar(dto);
+                return Ok();
+            }
+            catch (ValidationException ex)
+            {
+                var mensajesError = ex.Errors.Select(x => x.ErrorMessage);
+                return BadRequest(mensajesError);
+            }
+
+        }
+
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id) 
+        {
+            if (Service.Eliminar(id))
+            {
+                return Ok();
+            }
+            return NotFound();
         }
     }
 }
