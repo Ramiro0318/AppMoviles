@@ -11,7 +11,7 @@ public partial class Alumno
 
     public string NumControl { get; set; } = null!;
 
-    public int? IdGrupo { get; set; }
+    public int IdGrupo { get; set; }
 
     public virtual ICollection<Asistencia> Asistencia { get; set; } = new List<Asistencia>();
 

@@ -13,6 +13,7 @@
     {
         public string Nombre { get; set; } = null!;
         public string NumControl { get; set; } = null!;
+        public int IdGrupo { get; set; }
     }
 
     public class AlumnoDetallesDTO
