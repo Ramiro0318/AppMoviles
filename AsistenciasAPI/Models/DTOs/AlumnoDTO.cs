@@ -27,12 +27,13 @@
 
     public class AsistenciaDTO 
     {
-        public string IdAlumno { get; set; } = null!;
-        public DateOnly Fecha { get; set; }
+        public int IdAlumno { get; set; }
+        public DateTime Fecha { get; set; }
     }
 
     public class JustificacionDTO 
     {
+        public int IdAlumno { get; set; }
         public string Motivo { set; get; } = null!;
     }
 }
