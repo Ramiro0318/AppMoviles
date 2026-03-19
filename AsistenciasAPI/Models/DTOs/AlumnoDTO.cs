@@ -31,9 +31,8 @@
         public DateTime Fecha { get; set; }
     }
 
-    public class JustificacionDTO 
+    public class JustificacionDTO : AsistenciaDTO
     {
-        public int IdAlumno { get; set; }
         public string Motivo { set; get; } = null!;
     }
 }

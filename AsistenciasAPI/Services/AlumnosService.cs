@@ -3,7 +3,9 @@ using AsistenciasAPI.Models.Entities;
 using AsistenciasAPI.Models.Validators;
 using AsistenciasAPI.Repositories;
 using AutoMapper;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 
 namespace AsistenciasAPI.Services
 {
@@ -16,7 +18,7 @@ namespace AsistenciasAPI.Services
         private readonly AsistenciaValidator asistenciaValidator;
         private readonly JustificacionValidator justificacionValidator;
 
-        public AlumnosService(Repository<Alumno> repository, IMapper mapper, AgregarAlumnoValidator agregarValidator, EditarAlumnoValidator editarValidator, AsistenciaValidator asistenciaValidator, JustificacionValidator justificacionValidator) 
+        public AlumnosService(Repository<Alumno> repository, IMapper mapper, AgregarAlumnoValidator agregarValidator, EditarAlumnoValidator editarValidator, AsistenciaValidator asistenciaValidator, JustificacionValidator justificacionValidator)
         {
             this.repository = repository;
             this.mapper = mapper;
@@ -26,7 +28,7 @@ namespace AsistenciasAPI.Services
             this.justificacionValidator = justificacionValidator;
         }
 
-        public List<AlumnoDTO> GetByGrupos(int idGrupo, DateTime fecha) 
+        public List<AlumnoDTO> GetByGrupos(int idGrupo, DateTime fecha)
         {
             var alumnos = repository.Query()
                 .Include(x => x.Asistencia.Where(x => x.Fecha == fecha.Date))
@@ -35,7 +37,7 @@ namespace AsistenciasAPI.Services
             return alumnos.Select(x => mapper.Map<AlumnoDTO>(x)).ToList();
         }
 
-        public AlumnoDetallesDTO GetById(int idAlumno) 
+        public AlumnoDetallesDTO GetById(int idAlumno)
         {
             var alumno = repository.Get(idAlumno);
 
@@ -49,7 +51,7 @@ namespace AsistenciasAPI.Services
             }
         }
 
-        public void AgregarAlumno(AgregarAlumnoDTO dto) 
+        public void AgregarAlumno(AgregarAlumnoDTO dto)
         {
             var result = agregarValidator.Validate(dto);
 
@@ -64,11 +66,11 @@ namespace AsistenciasAPI.Services
             }
         }
 
-        public void AgregarAlumno(EditarAlumnoDTO dto) 
+        public void AgregarAlumno(EditarAlumnoDTO dto)
         {
             var result = editarValidator.Validate(dto);
 
-            if (result.IsValid) 
+            if (result.IsValid)
             {
                 var entidad = repository.Get(dto.Id);
                 if (entidad == null)
@@ -85,7 +87,7 @@ namespace AsistenciasAPI.Services
         }
 
 
-        public void EliminarAlumno(int id) 
+        public void EliminarAlumno(int id)
         {
             if (repository.Get(id) == null)
             {
@@ -98,33 +100,114 @@ namespace AsistenciasAPI.Services
         }
 
 
-
-
-        public void RegistrarAsistencia(AsistenciaDTO dto) 
+        public void RegistrarAsistencia(AsistenciaDTO dto)
         {
             var result = asistenciaValidator.Validate(dto);
 
-            if (result.IsValid) 
+            if (result.IsValid)
             {
-                var entidad = repository.Get(dto.IdAlumno);
+                var alumno = repository.Query()
+                .Include(x => x.Asistencia.Where(x => x.Fecha.Date == dto.Fecha.Date))
+                .Where(x => x.Id == dto.IdAlumno).FirstOrDefault();
 
-                if (entidad == null)
+                if (alumno == null)
                 {
                     throw new KeyNotFoundException();
                 }
+                var asistencia = alumno.Asistencia.FirstOrDefault();
+               
+                if (asistencia != null)
+                {
+                    //Si ya hay asistencia es replace
+                    asistencia.IdEstado = 1;
+                    asistencia.Motivo = null;
+
+                }
                 else
                 {
-                    mapper.Map(dto, entidad);
-
-                    var ola = repository.Query()
-                        .Where(x => x.Id == dto.IdAlumno)
-                        .Include(x => x.Asistencia
-                        .Where(x => x.Fecha.Date.Date))
-                        .Where(x => x.id == dto.IdAlumno).FirstPrDefault();
-
-                    repository.Insert(entidad);
+                    //Sino es insert
+                    var EntidadAsistencia = mapper.Map<Asistencia>(dto);
+                    EntidadAsistencia.IdEstado = 1;
+                    alumno.Asistencia.Add(EntidadAsistencia);
                 }
+                repository.Update(alumno);
+            }
+            else
+            {
+                throw new ValidationException(result.Errors);
             }
         }
+
+
+        public void RegistrarInsistencia(AsistenciaDTO dto)
+        {
+            var result = asistenciaValidator.Validate(dto);
+
+            if (result.IsValid)
+            {
+                var alumno = repository.Query()
+                .Include(x => x.Asistencia.Where(x => x.Fecha.Date == dto.Fecha.Date))
+                .Where(x => x.Id == dto.IdAlumno).FirstOrDefault();
+
+                if (alumno == null)
+                {
+                    throw new KeyNotFoundException();
+                }
+                var asistencia = alumno.Asistencia.FirstOrDefault();
+
+                if (asistencia != null)
+                {
+                    asistencia.IdEstado = 2;
+                    asistencia.Motivo = null;
+                }
+                else
+                {
+                    var EntidadAsistencia = mapper.Map<Asistencia>(dto);
+                    EntidadAsistencia.IdEstado = 2;
+                    alumno.Asistencia.Add(EntidadAsistencia);
+                }
+                repository.Update(alumno);
+            }
+            else
+            {
+                throw new ValidationException(result.Errors);
+            }
+        }
+
+        public void JustificarInsistencia(JustificacionDTO dto)
+        {
+            var result = justificacionValidator.Validate(dto);
+
+            if (result.IsValid)
+            {
+                var alumno = repository.Query()
+                .Include(x => x.Asistencia.Where(x => x.Fecha.Date == dto.Fecha.Date))
+                .Where(x => x.Id == dto.IdAlumno).FirstOrDefault();
+
+                if (alumno == null)
+                {
+                    throw new KeyNotFoundException();
+                }
+                var asistencia = alumno.Asistencia.FirstOrDefault();
+
+                if (asistencia != null)
+                {
+                    asistencia.IdEstado = 3;
+                    asistencia.Motivo = dto.Motivo;
+                }
+                else
+                {
+                    var EntidadAsistencia = mapper.Map<Asistencia>(dto);
+                    EntidadAsistencia.IdEstado = 3;
+                    alumno.Asistencia.Add(EntidadAsistencia);
+                }
+                repository.Update(alumno);
+            }
+            else
+            {
+                throw new ValidationException(result.Errors);
+            }
+        }
+
     }
 }
