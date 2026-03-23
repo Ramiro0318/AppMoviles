@@ -6,6 +6,7 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
+using System.Linq.Expressions;
 
 namespace AsistenciasAPI.Services
 {
@@ -17,8 +18,9 @@ namespace AsistenciasAPI.Services
         private readonly EditarAlumnoValidator editarValidator;
         private readonly AsistenciaValidator asistenciaValidator;
         private readonly JustificacionValidator justificacionValidator;
+        private readonly GruposService gruposService;
 
-        public AlumnosService(Repository<Alumno> repository, IMapper mapper, AgregarAlumnoValidator agregarValidator, EditarAlumnoValidator editarValidator, AsistenciaValidator asistenciaValidator, JustificacionValidator justificacionValidator)
+        public AlumnosService(Repository<Alumno> repository, IMapper mapper, AgregarAlumnoValidator agregarValidator, EditarAlumnoValidator editarValidator, AsistenciaValidator asistenciaValidator, JustificacionValidator justificacionValidator, GruposService gruposService)
         {
             this.repository = repository;
             this.mapper = mapper;
@@ -26,6 +28,7 @@ namespace AsistenciasAPI.Services
             this.editarValidator = editarValidator;
             this.asistenciaValidator = asistenciaValidator;
             this.justificacionValidator = justificacionValidator;
+            this.gruposService = gruposService;
         }
 
         public List<AlumnoDTO> GetByGrupos(int idGrupo, DateTime fecha)
@@ -57,6 +60,11 @@ namespace AsistenciasAPI.Services
 
             if (result.IsValid)
             {
+                if (gruposService.Get(dto.IdGrupo) == null)
+                {
+                    result.Errors.Add(new ("IdGrupo","El grupo no existe."));
+                    throw new ValidationException(result.Errors);
+                }
                 var entidad = mapper.Map<Alumno>(dto);
                 repository.Insert(entidad);
             }
@@ -66,7 +74,7 @@ namespace AsistenciasAPI.Services
             }
         }
 
-        public void AgregarAlumno(EditarAlumnoDTO dto)
+        public void EditarAlumno(EditarAlumnoDTO dto)
         {
             var result = editarValidator.Validate(dto);
 

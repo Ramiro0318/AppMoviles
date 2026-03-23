@@ -17,7 +17,7 @@ namespace AsistenciasAPI.Models.Validators
 
 
             RuleFor(x => x.NumControl).NotEmpty().WithMessage("Escriba el numero de control del alumno")
-                    .MaximumLength(8).WithMessage("Escriba un nombre de maximo 8 caracteres")
+                    .MaximumLength(8).WithMessage("Escriba un nombre de maximo 8 caracteres");
 
             RuleFor(x => x).Must(NumControlRepetido).WithMessage("Ya existe un alumno con el mismo numero de control");
 

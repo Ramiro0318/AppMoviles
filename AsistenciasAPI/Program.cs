@@ -1,4 +1,3 @@
-using AsistenciasAPI.Models.DTOs;
 using AsistenciasAPI.Models.Entities;
 using AsistenciasAPI.Repositories;
 using AsistenciasAPI.Services;
@@ -11,17 +10,19 @@ builder.Services.AddControllers();
 
 var cs = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<RegistroasistenciaContext>(x => x.UseMySql(cs, ServerVersion.AutoDetect(cs)));
+
 builder.Services.AddScoped(typeof(Repository<>), typeof(Repository<>));
 builder.Services.AddScoped<GruposService>();
-builder.Services.AddTransient<IValidator<AgregarGrupoDTO>, AgregarGrupoDTOValidator>();
-builder.Services.AddTransient<IValidator<EditarGrupoDTO>, EditarGrupoDTOValidator>();
+builder.Services.AddScoped<AlumnosService>();
+//builder.Services.AddTransient<IValidator<AgregarGrupoDTO>, AgregarGrupoValidator>();
+//builder.Services.AddTransient<IValidator<EditarGrupoDTO>, EditarGrupoValidator>();
 
-builder.Services.AddAutoMapper(x => 
+builder.Services.AddAutoMapper(x =>
 {
 
 }, typeof(Program).Assembly);
 
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 
 var app = builder.Build();
 app.MapControllers();
