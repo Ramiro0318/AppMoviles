@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace AsistenciasAPI.Models.Validators
 {
-    public class AgregarGrupoValidator: AbstractValidator<GrupoDTO> 
+    public class AgregarGrupoValidator: AbstractValidator<AgregarGrupoDTO> 
     {
         private readonly Repository<Grupo> repository;
         public AgregarGrupoValidator(Repository<Grupo> repository) 
