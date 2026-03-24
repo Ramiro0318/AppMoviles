@@ -8,10 +8,10 @@ namespace AsistenciasAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GrupoControllers : Controller
+    public class GruposController : Controller
     {
         public GruposService Service { get; }
-        public GrupoControllers(GruposService service)
+        public GruposController(GruposService service)
         {
             Service = service;
         }
@@ -40,7 +40,7 @@ namespace AsistenciasAPI.Controllers
             try
             {
                 var id = Service.Agregar(dto);
-                return Created("grupo", id); //Cuando no es rest hacer un post que a veces haga esto, a veces otra cosa
+                return Created("api/grupos", id); //Cuando no es rest hacer un post que a veces haga esto, a veces otra cosa
             }
             catch (ValidationException ex)
             {

@@ -15,7 +15,7 @@ namespace AsistenciasAPI.Mappers
                     var estado = o.Asistencia.Where(x => x.Fecha == DateTime.Now.Date)
                     .Select(x => x.IdEstado).FirstOrDefault();
 
-                    return estado == 1 ? 'A' : estado == 2 ? 'F' : 'J';
+                    return estado == 1 ? 'A' : estado == 2 ? 'F' : estado == 3 ? 'J' : ' ';
                 }))
                 .ForMember(x => x.Justificacion, opt => opt.MapFrom((o, d) =>
                 {
