@@ -17,7 +17,7 @@ namespace AsistenciasAPI.Controllers
             this.service = service;
         }
 
-        [HttpGet("grupo/{idgrrupo}/{fecha}")]
+        [HttpGet("grupo/{idgrupo}/{fecha}")]
         public IActionResult Get(int idGrupo, DateTime fecha)
         {
             var grupo = service.GetByGrupos(idGrupo, fecha);
@@ -59,7 +59,7 @@ namespace AsistenciasAPI.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         public IActionResult Put(EditarAlumnoDTO dto)
         {
             try
