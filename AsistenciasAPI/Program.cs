@@ -1,3 +1,4 @@
+using AsistenciaAPI.Services;
 using AsistenciasAPI.Models.Entities;
 using AsistenciasAPI.Repositories;
 using AsistenciasAPI.Services;
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<RegistroasistenciaContext>(x => x.UseMySql(cs, Ser
 builder.Services.AddScoped(typeof(Repository<>), typeof(Repository<>));
 builder.Services.AddScoped<GruposService>();
 builder.Services.AddScoped<AlumnosService>();
+builder.Services.AddScoped<ReporteService>();
 //builder.Services.AddTransient<IValidator<AgregarGrupoDTO>, AgregarGrupoValidator>();
 //builder.Services.AddTransient<IValidator<EditarGrupoDTO>, EditarGrupoValidator>();
 
