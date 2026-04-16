@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using PendientesAPI.Helper;
 using PendientesAPI.Models.DTOs;
 using PendientesAPI.Models.Entities;
 using PendientesAPI.Repositories;
@@ -22,6 +23,10 @@ namespace PendientesAPI.Services
         public void Regsitrar(UsuarioRequestDTO requestDTO) 
         {
             var entidad = mapper.Map<Usuarios>(requestDTO);
+
+            entidad.FechaCreacion = DateTime.Now;
+            entidad.ContraseñaHash = EncriptacionHelper.Encrypt(requestDTO.contrasena);
+
             repository.Add(entidad);
             repository.SaveChanges();
         }
