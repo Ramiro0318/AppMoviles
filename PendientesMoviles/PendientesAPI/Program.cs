@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PendientesAPI.DTOs;
 using PendientesAPI.Mappings;
 using PendientesAPI.Models.DTOs;
@@ -8,6 +9,7 @@ using PendientesAPI.Models.Entities;
 using PendientesAPI.Repositories;
 using PendientesAPI.Services;
 using PendientesAPI.Validators;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x => {
         x.Audience = builder.Configuration.GetValue<string>("Jwt:Audience");
         x.Configuration.Issuer = builder.Configuration.GetValue<string>("Jwt:Issuer");
-        x.;
+        x.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Jwt:SecretKey")));
     });
 
 builder.Services.AddDbContext<PendientesContext>(options =>
