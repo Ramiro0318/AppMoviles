@@ -7,7 +7,8 @@ namespace PendientesAPI.Validators
     {
         public LoginValidator() 
         {
-            RuleFor(x => x.)
+            RuleFor(x => x.Username).NotEmpty().WithMessage("Escriba el nombre del usuario");
+            RuleFor(x => x.Password).NotEmpty().WithMessage("Escriba la contraseña");
         }
     }
 }

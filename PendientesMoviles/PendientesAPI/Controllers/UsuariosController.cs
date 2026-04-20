@@ -14,9 +14,9 @@ namespace PendientesAPI.Controllers
     public class UsuariosController : ControllerBase
     {
         private  UsuariosService service;
-        private  IValidator<UsuariosController> validator;
+        private  IValidator<UsuarioRequestDTO> validator;
 
-        public UsuariosController( UsuariosService service, IValidator<UsuariosController> validator) 
+        public UsuariosController( UsuariosService service, IValidator<UsuarioRequestDTO> validator) 
         {
             this.service = service;
             this.validator = validator;
@@ -24,14 +24,14 @@ namespace PendientesAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(UsuarioRequestDTO requestDTO) 
+        public ActionResult Create(UsuarioRequestDTO dto) 
         {
-            var validacion = validator.Validate(requestDTO);
+            var validacion = validator.Validate(dto);
             if (!validacion.IsValid) 
             {
                 return BadRequest(validacion.Errors.Select(x => x.ErrorMessage));
             }
-            service.Regsitrar(requestDTO);
+            service.Regsitrar(dto);
             return Ok();
          }
     }

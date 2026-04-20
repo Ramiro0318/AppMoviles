@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PendientesAPI.DTOs;
 using PendientesAPI.Services;
@@ -6,6 +7,7 @@ using PendientesAPI.Services;
 namespace PendientesAPI.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class PendientesController : ControllerBase
 {
