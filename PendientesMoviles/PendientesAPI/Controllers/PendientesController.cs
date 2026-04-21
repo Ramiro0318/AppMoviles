@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PendientesAPI.DTOs;
 using PendientesAPI.Services;
+using System.Security.Claims;
 
 namespace PendientesAPI.Controllers;
 
@@ -18,6 +19,12 @@ public class PendientesController : ControllerBase
     {
         _service = service;
         _validator = validator;
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult GetByUser()
+    {
+        var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int idUsuario);
     }
 
     [HttpGet]

@@ -22,15 +22,30 @@ public class PendientesService
         return _mapper.Map<IEnumerable<PendienteResponseDTO>>(pendientes);
     }
 
+    public IEnumerable<PendienteResponseDTO> GetByUser(int id)
+    {
+        var pendientes = _repo.GetAll().Where(x => x.IdUsuario == id);
+        return _mapper.Map<IEnumerable<PendienteResponseDTO>>(pendientes);
+    }
+
     public PendienteResponseDTO? GetById(int id)
     {
         var pendiente = _repo.GetById(id);
         return pendiente == null ? null : _mapper.Map<PendienteResponseDTO>(pendiente);
     }
 
-    public PendienteResponseDTO Create(PendienteRequestDTO dto)
+    public PendienteResponseDTO? Create(PendienteRequestDTO dto, int user)
     {
         var pendiente = _mapper.Map<Pendientes>(dto);
+        if (pendiente == null) return null;
+        if (pendiente.IdUsuario != user)
+        {
+            throw new AccessViolationException();
+        }
+
+        _mapper.Map(dto, pendiente);
+        pendiente.IdUsuario = user;
+
         _repo.Add(pendiente);
         _repo.SaveChanges();
         return _mapper.Map<PendienteResponseDTO>(pendiente);

@@ -16,8 +16,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x => {
         x.Audience = builder.Configuration.GetValue<string>("Jwt:Audience");
-        x.Configuration.Issuer = builder.Configuration.GetValue<string>("Jwt:Issuer");
+        //x.Configuration.Issuer = builder.Configuration.GetValue<string>("Jwt:Issuer");
         x.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Jwt:SecretKey")));
+        x.TokenValidationParameters.ValidateAudience = true;
+        x.TokenValidationParameters.ValidateIssuer = true;
+        x.TokenValidationParameters.ValidateLifetime = true;
+        x.TokenValidationParameters.ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience");
+        x.TokenValidationParameters.ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer");
+    
     });
 
 builder.Services.AddDbContext<PendientesContext>(options =>
