@@ -25,7 +25,11 @@
             Text="¿No tienes cuenta? Regístrate"
             HorizontalOptions="Center"
             TextColor="Blue"
-            TextDecorations="Underline" />
+            TextDecorations="Underline" >
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GotoRegistrarCommand}"></TapGestureRecognizer>
+            </Label.GestureRecognizers>
+        </Label>
 
     </VerticalStackLayout>
 </ContentPage>

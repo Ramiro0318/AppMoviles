@@ -34,6 +34,8 @@ public static class MauiProgram
         builder.Services.AddTransient<AddEditView>();
         builder.Services.AddTransient<LoginView>();
         builder.Services.AddTransient<RegisterView>();
+        builder.Services.AddSingleton<UserService>();
+        builder.Services.AddSingleton<UserViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();
