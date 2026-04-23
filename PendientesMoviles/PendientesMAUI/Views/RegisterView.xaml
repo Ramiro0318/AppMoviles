@@ -15,24 +15,25 @@
                 HorizontalOptions="Center" />
 
             <Label Text="Nombre de usuario" />
-            <Entry x:Name="EntryUsuario" Placeholder="Mínimo 3 caracteres" />
+            <Entry x:Name="EntryUsuario" Text="{Binding NuevoUsuario.NombreUsuario}" Placeholder="Mínimo 3 caracteres" />
 
             <Label Text="Correo electrónico" />
-            <Entry x:Name="EntryCorreo" Placeholder="correo@ejemplo.com" Keyboard="Email" />
+            <Entry x:Name="EntryCorreo" Text="{Binding NuevoUsuario.Correo}" Placeholder="correo@ejemplo.com" Keyboard="Email" />
 
             <Label Text="Contraseña" />
-            <Entry x:Name="EntryPassword" Placeholder="Mínimo 6 caracteres" IsPassword="True" />
+            <Entry x:Name="EntryPassword" Text="{Binding NuevoUsuario.Contraseña}"  Placeholder="Mínimo 6 caracteres" IsPassword="True" />
 
-            <Label Text="Confirmar contraseña" />
-            <Entry x:Name="EntryConfirm" Placeholder="Repite la contraseña" IsPassword="True" />
+            <Button Text="Registrar" Command="{Binding RegisterCommand}" BackgroundColor="Gray" />
 
-            <Button Text="Registrar" IsEnabled="False" BackgroundColor="Gray" />
-
+            <Label Text="{Binding Errores}" HorizontalOptions="Center" TextColor="Red" />
+            
             <Label
                 Text="¿Ya tienes cuenta? Inicia sesión"
                 HorizontalOptions="Center"
+                bind
                 TextColor="Blue"
                 TextDecorations="Underline" />
+            
 
         </VerticalStackLayout>
     </ScrollView>
