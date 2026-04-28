@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PendientesMAUI.Views.AddEditView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+
+            <Label Text="Título *" FontAttributes="Bold" />
+            <Entry
+                Text="{Binding Titulo}"
+                Placeholder="Máximo 100 caracteres"
+                MaxLength="100" />
+
+            <Label Text="Descripción" FontAttributes="Bold" />
+            <Editor
+                Text="{Binding Descripcion}"
+                Placeholder="Opcional, máximo 500 caracteres"
+                MaxLength="500"
+                HeightRequest="100" />
+
+            <Label Text="Estado" FontAttributes="Bold" />
+            <Picker
+                ItemsSource="{Binding EstadosDisponibles}"
+                SelectedItem="{Binding Estado}" />
+
+            <ActivityIndicator
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                HorizontalOptions="Center" />
+
+            <Button
+                Text="Guardar"
+                Command="{Binding SaveCommand}"
+                IsEnabled="{Binding IsNotBusy}" />
+
+            <Button
+                Text="Cancelar"
+                BackgroundColor="Gray"
+                Command="{Binding CancelCommand}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

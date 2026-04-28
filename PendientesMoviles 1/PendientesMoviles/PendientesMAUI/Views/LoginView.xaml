@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PendientesMAUI.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Iniciar Sesión">
+
+    <VerticalStackLayout Padding="32" Spacing="16" VerticalOptions="Center">
+
+        <Label Text="Pendientes App" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" />
+
+        <Label Text="Usuario" />
+        <Entry Text="{Binding Login.Username}" Placeholder="Nombre de usuario" />
+
+        <Label Text="Contraseña" />
+        <Entry Text="{Binding Login.Password}" Placeholder="Contraseña" IsPassword="True" />
+
+        <Button Text="Iniciar sesión" Command="{Binding LoginCommand}" />
+
+        <Label Text="¿No tienes cuenta? Regístrate"
+               HorizontalOptions="Center"
+               TextColor="Blue"
+               TextDecorations="Underline">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GotoRegisterCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
+
+    </VerticalStackLayout>
+</ContentPage>

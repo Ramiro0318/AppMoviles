@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="PendientesAPI/PendientesAPI.csproj" />
+  <Project Path="PendientesMAUI/PendientesMAUI.csproj" />
+</Solution>
