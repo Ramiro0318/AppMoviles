@@ -24,7 +24,8 @@ public class PendientesController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetByUser()
     {
-        var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int idUsuario);
+        //var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int idUsuario);
+        return Ok();
     }
 
     [HttpGet]
@@ -48,7 +49,7 @@ public class PendientesController : ControllerBase
         if (!validation.IsValid)
             return BadRequest(validation.Errors.Select(e => e.ErrorMessage));
 
-        var created = _service.Create(dto);
+        var created = _service.Create(dto, dto.Id);
         return Ok(created.Id);
     }
 

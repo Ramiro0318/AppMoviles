@@ -1,4 +1,4 @@
-﻿using Android.Widget;
+﻿
 using PendientesMAUI.Models.DTOs;
 using PendientesMAUI.Services;
 using System;
@@ -31,7 +31,7 @@ namespace PendientesMAUI.ViewModels
         public ICommand GoToRegisterCommand { get; set; }
         public ICommand GoToLoginCommand { get; set; }
 
-        private async void GoToLogin(object obj)
+        private async void GoToLogin()
         {
             await Shell.Current.GoToAsync("..");
         }

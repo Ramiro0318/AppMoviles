@@ -20,7 +20,7 @@ namespace PendientesAPI.Services
             this.configuration = configuration;
         }
 
-        public string Login(LoginDTO dto)
+        public TokenDTO Login(LoginDTO dto)
         {
             var hash = Sha256Helper.ComputeHash(dto.Password ?? "");
 
@@ -38,10 +38,69 @@ namespace PendientesAPI.Services
             };
 
             var token = GenerarJWT(claims);
-            return token;
+            var refreshToken = Guid.NewGuid().ToString();
+
+            refreshToken nuevo = new refreshTokens()
+            {
+                idUsuario = usuario.Id,
+                FechaVencimiento = DateTime.UtcNow.AddDays(1),
+                token = token
+            };
+
+            refreshtokkenRepository.add(nuevo);
+            refreshTokenRepository.saveChanges();
+
+
+            return new TokenDTO { 
+                RefreshToken = refreshToken,
+                Token = token,
+            };
         }
 
+        public TokenDTO TokenRenewal(TokenRenovationDTO dto) 
+        {
+            var rt = repository.GetAll().FirstOrDefault(x => x.token == dto.RefreshToken);
 
+            if (rt != null || rt.FechaVencimiento < DateTime.UtcNow)
+            {
+                throw new UnauthorizedAccessException();
+            }
+
+            var usuario = repository.GetAll().FirstOrDefault(x => x.NombreUsuario == dto.Username && x.ContraseñaHash == hash);
+
+
+            if (usuario == null)
+                throw new KeyNotFoundException();
+
+            //Generar el JWT
+
+            var claims = new List<Claim>()
+            { new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+            new Claim(ClaimTypes.Name, usuario.NombreUsuario)
+            };
+
+            var token = GenerarJWT(claims);
+            var refreshToken = Guid.NewGuid().ToString();
+
+            refreshToken nuevo = new refreshTokens()
+            {
+                idUsuario = usuario.Id,
+                FechaVencimiento = DateTime.UtcNow.AddDays(1),
+                token = token
+            };
+
+            refreshtokkenRepository.add(nuevo);
+
+            refreshTokenRepository.delete(rt);
+            refreshTokenRepository.saveChanges();
+
+            return new TokenDTO
+            {
+                RefreshToken = refreshToken,
+                Token = token,
+            };
+
+        }
 
         private string GenerarJWT(List<Claim> claims)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using PendientesMAUI.Services;
 using PendientesMAUI.ViewModels;
 using PendientesMAUI.Views;
@@ -11,7 +12,7 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
 
-        builder
+        builder.UseMauiCommunityToolkit()
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {

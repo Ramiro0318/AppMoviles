@@ -30,7 +30,6 @@
             <Label
                 Text="¿Ya tienes cuenta? Inicia sesión"
                 HorizontalOptions="Center"
-                bind
                 TextColor="Blue"
                 TextDecorations="Underline" />
             
