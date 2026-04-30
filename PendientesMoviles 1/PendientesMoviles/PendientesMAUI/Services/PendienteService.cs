@@ -6,12 +6,14 @@ namespace PendientesMAUI.Services;
 public class PendienteService
 {
     private readonly HttpClient _http;
+    private readonly UserService userServce;
     private const string Endpoint = "api/pendientes";
 
-    public PendienteService(HttpClient http)
+    public PendienteService(HttpClient http, UserService userServce)
     {
 
         _http = http;
+        this.userServce = userServce;
     }
 
     public async Task<List<Pendiente>> GetAllAsync()
@@ -20,6 +22,18 @@ public class PendienteService
         {
             var result = await _http.GetFromJsonAsync<List<Pendiente>>(Endpoint);
             return result ?? new List<Pendiente>();
+        }
+        catch (HttpRequestException re) when ( re.StatusCode == System.Net.HttpStatusCode.Unauthorized) 
+        {
+            var renovado = await userServce.refreshToken();
+            if (renovado)
+            {
+                return await GetAllAsync();
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
+            }
         }
         catch
         {

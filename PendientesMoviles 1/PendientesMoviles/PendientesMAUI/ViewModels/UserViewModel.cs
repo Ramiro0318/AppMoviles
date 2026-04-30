@@ -100,6 +100,14 @@ namespace PendientesMAUI.ViewModels
             }
         }
 
+        public async void VerificarAutenticacion() 
+        {
+            if (await service.IsAuthenticated())
+            {
+                await Shell.Current.GoToAsync("TodoView", false);
+            }
+        }
+
         private async void GotoLogin()
         {
             await Shell.Current.GoToAsync("..");

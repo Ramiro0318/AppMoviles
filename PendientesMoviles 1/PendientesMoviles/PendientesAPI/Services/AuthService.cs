@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using PendientesAPI.Models.DTOs;
 using PendientesAPI.Models.Entities;
 using PendientesAPI.Repositories;
@@ -55,6 +56,20 @@ namespace PendientesAPI.Services
                 RefreshToken = refreshToken,
                 Token = token,
             };
+        }
+
+        public async Task<bool> IsAtuthenticated() 
+        {
+            var token = await SecureStorage.GetAssync("MiToken");
+            if (token == null)
+            {
+                return false;
+            }
+            else
+            {
+                Cliente.DefaultRequestShadersHeaders.
+                return true;
+            }
         }
 
         public TokenDTO TokenRenewal(TokenRenovationDTO dto) 
