@@ -17,7 +17,7 @@ namespace GaleriaFotosApp.Services
             this.cliente = cliente;
         }
 
-        public async void TomarFoto()
+        public async Task<string?> TomarFoto()
         {
             if (MediaPicker.Default.IsCaptureSupported)
             {
@@ -25,24 +25,52 @@ namespace GaleriaFotosApp.Services
 
                 if (photo != null)
                 {
+                    string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
                     using Stream sourceStream = await photo.OpenReadAsync();
+
+                    using FileStream localFileStream = File.OpenWrite(localFilePath);
+                    await sourceStream.CopyToAsync(localFileStream);
 
                     byte[] buffer = new byte[sourceStream.Length];
                     sourceStream.ReadExactly(buffer, 0, buffer.Length);
 
                     var base64 = Convert.ToBase64String(buffer);
-
                     await SubirFoto(base64);
+
+                    return localFilePath;
                 }
             }
+            return null;
         }
 
-        public async Task SubirFoto(string imgBase64)
+        public async Task<int?> SubirFoto(string filepath)
         {
-            SubirFotoRequest req = new SubirFotoRequest { 
+            var imgBase64 = Convert.ToBase64String(File.ReadAllBytes(filepath));
+
+            SubirFotoRequest req = new SubirFotoRequest
+            {
                 ImagenBase64 = imgBase64,
             };
+
             var response = await cliente.PostAsJsonAsync("/fotos", req);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var resp = await response.Content.ReadFromJsonAsync<SubirFotoResponse>();
+
+                if (resp != null)
+                {
+                    return resp.Id;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
