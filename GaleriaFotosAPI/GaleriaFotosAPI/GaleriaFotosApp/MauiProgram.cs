@@ -1,4 +1,6 @@
-﻿using GaleriaFotosMaui.Services;
+﻿using GaleriaFotosApp.Services;
+using GaleriaFotosApp.ViewModels;
+using GaleriaFotosMaui.Services;
 using GaleriaFotosMaui.ViewModels;
 using GaleriaFotosMaui.Views;
 using Microsoft.Extensions.Logging;
@@ -19,6 +21,7 @@ namespace GaleriaFotosApp
                 });
 
             builder.Services.AddSingleton<AuthService>();
+            builder.Services.AddSingleton<FotoService>();
 
             builder.Services.AddSingleton(new HttpClient
             {
@@ -26,6 +29,7 @@ namespace GaleriaFotosApp
             });
 
             builder.Services.AddSingleton<UsersViewModel>();
+            builder.Services.AddSingleton<FotosViewModel>();
 
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<RegistroPage>();

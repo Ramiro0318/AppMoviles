@@ -14,7 +14,7 @@
                 BackgroundColor="#FFF3CD"
                 Stroke="#FFEEBA"
                 Padding="12,8">
-                <Label Text="Mensaje" TextColor="#856404" FontSize="12" HorizontalOptions="Center" />
+                <Label Text="{Binding Mensaje}" TextColor="#856404" FontSize="12" HorizontalOptions="Center" />
             </Border>
 
             <Label Text="📤 Subir nueva foto" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
@@ -25,7 +25,7 @@
                 BackgroundColor="{StaticResource LightGray}">
                 <Grid>
                     <Label
-                        Text="Sin imagen seleccionada"
+                        Text="{Binding}"
                         HorizontalOptions="Center"
                         VerticalOptions="Center"
                         TextColor="{StaticResource DarkGray}" />
@@ -38,6 +38,7 @@
                 <Button
                     Grid.Column="0"
                     Text="📷 Cámara"
+                    Command="{Binding TomarFoto}"
                     BackgroundColor="{StaticResource Secondary}"
                     TextColor="{StaticResource Primary}"
                     CornerRadius="8"
@@ -51,10 +52,11 @@
                     HeightRequest="44" />
             </Grid>
 
-            <ActivityIndicator Color="{StaticResource Primary}" />
+            <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}" Color="{StaticResource Primary}" />
 
             <Button
                 Text="⬆️ Subir Foto"
+                Command="{Binding SubirFotoCommand}"
                 BackgroundColor="{StaticResource Primary}"
                 TextColor="White"
                 CornerRadius="8"
