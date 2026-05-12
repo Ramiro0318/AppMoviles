@@ -1,4 +1,5 @@
 ﻿using GaleriaFotosApp.DTOs;
+using Org.W3c.Dom.LS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,17 @@ namespace GaleriaFotosApp.Services
             {
                 return null;
             }
+        }
+
+        public async Task<List<FotoDto>> GetFotos() 
+        {
+            var response = await cliente.GetFromJsonAsync<List<FotoDto>("/fotos") ?? [];
+
+            foreach (var archivo in response)
+            {
+                archivo.NombreArchivo = $"https://localhost:44303/uploads/{archivo.id}.jpg";
+            }
+            return response;
         }
     }
 }

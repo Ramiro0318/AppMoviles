@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using GaleriaFotosApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace GaleriaFotosApp.ViewModels
 {
     public partial class FotosViewModel : ObservableObject
     {
+        public ObservableCollection<fotosDto> Fotos { get; set; }
         [ObservableProperty]
         private bool isLoading;
         [ObservableProperty]
@@ -19,6 +21,12 @@ namespace GaleriaFotosApp.ViewModels
         private string? rutaImagen = "";
         private readonly FotoService service;
 
+        public async Task DescargarFoto() 
+        {
+            Fotos.Clear();
+            var fotos = await service.GetFotos();
+            fotos.ForEach(x => Fotos.fotos.Add(x));
+        }
 
         [RelayCommand]
         public async Task TomarFoto()
@@ -45,7 +53,7 @@ namespace GaleriaFotosApp.ViewModels
                 if (RutaImagen != null)
                 {
                     IsLoading = true;
-                    Mensaje = "Carnaod foto...";
+                    Mensaje = "Carnado foto...";
                     var id = await service.SubirFoto(RutaImagen);
                     if (id == null)
                     {
