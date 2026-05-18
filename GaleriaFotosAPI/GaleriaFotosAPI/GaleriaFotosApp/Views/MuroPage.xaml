@@ -17,10 +17,18 @@
             Padding="12,8"
             Margin="8,8,8,0">
             <Label
-                Text="Mensaje"
+                Text="{Binding Mensaje}"
                 TextColor="#856404"
                 FontSize="12"
                 HorizontalOptions="Center" />
+
+            <border.Style>
+                <style targetType="border">
+                    <Style.Triggers Binding="{Binding Mensaje}" Value="">
+                        <Setter Property="IsVisible" value="False"></Setter>
+                    <Style.Triggers/>
+                </style>
+            </border.Style>
         </Border>
 
         <ActivityIndicator

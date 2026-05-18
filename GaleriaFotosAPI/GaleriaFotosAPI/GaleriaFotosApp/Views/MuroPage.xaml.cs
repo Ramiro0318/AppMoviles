@@ -15,7 +15,7 @@ public partial class MuroPage : ContentPage
         this.vm = vm;
     }
 
-    protected override async Task OnAppearing()
+    protected override async void OnAppearing()
     {
         await vm.DescargarFoto();
         base.OnAppearing();

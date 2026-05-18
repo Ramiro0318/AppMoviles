@@ -1,4 +1,5 @@
 ﻿using GaleriaFotosApp.DTOs;
+using Java.Util;
 using Org.W3c.Dom.LS;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,11 @@ namespace GaleriaFotosApp.Services
         public FotoService(HttpClient cliente)
         {
             this.cliente = cliente;
+        }
+
+        public async BackgroundTasks<IEnumerable<FotoDto>> GetAllAsync() 
+        {
+            var fotos => await 
         }
 
         public async Task<string?> TomarFoto()
@@ -43,6 +49,35 @@ namespace GaleriaFotosApp.Services
             }
             return null;
         }
+
+
+        public async Task<string?> PickFoto()
+        {
+            if (MediaPicker.Default.IsCaptureSupported)
+            {
+                FileResult? photo = await MediaPicker.Default.PickPhotoAsync();
+
+                if (photo != null)
+                {
+                    string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+                    using Stream sourceStream = await photo.OpenReadAsync();
+
+                    using FileStream localFileStream = File.OpenWrite(localFilePath);
+                    await sourceStream.CopyToAsync(localFileStream);
+
+                    byte[] buffer = new byte[sourceStream.Length];
+                    sourceStream.ReadExactly(buffer, 0, buffer.Length);
+
+                    var base64 = Convert.ToBase64String(buffer);
+                    await SubirFoto(base64);
+
+                    return localFilePath;
+                }
+            }
+            return null;
+        }
+
+
 
         public async Task<int?> SubirFoto(string filepath)
         {
